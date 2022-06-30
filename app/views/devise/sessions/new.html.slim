@@ -1,0 +1,25 @@
+/= content_for :meta_title_prefix, t('sign_in.meta_title_prefix')
+
+.container
+  .row
+    .col-md-10.offset-md-1.m40
+      .text-center.mb30
+        h1.m0= t('sign_in.head')
+        .subnav
+          = link_to t('sign_in.lnk_sign_up'), new_user_registration_path, class: 'btn btn_txt'
+      .block.text-center.m10
+        - if flash[:alert].present?
+          .f-red.s14= flash[:alert]
+        = form_for resource, as: resource_name, url: session_path(resource_name), html: {class: 'block__form'} do |f|
+          = hidden_field_tag :redirect_to, params[:redirect_to]
+          .input.m10
+            = f.text_field :email, placeholder: t('sign_in.placeholder_email')
+            = errors_for f, :email
+          .input.m10
+            = f.password_field :password, placeholder: t('sign_in.placeholder_password')
+            = errors_for f, :password
+          button.btn.btn_std.btn_lg.mt20= t('sign_in.btn_submit')
+          = render '/shared/oauth'
+          .s12.f-gray.mt20
+            = link_to t('sign_in.lnk_recover'), new_password_path(resource_name), class: 'std'
+

@@ -1,0 +1,66 @@
+<div>
+    <b-navbar toggleable="md" type="light" class="fixed-top">
+        <div class="container">
+        <b-navbar-brand :to="{ path: '/'}" >
+            <img src="/images/logo_color.png" alt="" width="30">
+        </b-navbar-brand>
+    
+        <b-nav is-nav-bar v-if="showEditorMenu">
+            <b-nav-item :to="{ path: '/editor/review'}">
+                <i class="material-icons active-blue">&#xE019;</i>
+                <div class="nav-link__counter">{{countWorks('editorial', 'review_editorial')}}</div>
+            </b-nav-item>
+            <b-nav-item :to="{ path: '/editor/accept'}">
+                <i class="material-icons active-green">&#xE86C;</i>
+                <div class="nav-link__counter">{{countWorks('editorial', 'selected_to_accept')}}</div>
+            </b-nav-item>
+            <b-nav-item :to="{ path: '/editor/reject'}">
+                <i class="material-icons active-red">&#xE5C9;</i>
+                <div class="nav-link__counter">{{countWorks('editorial', 'selected_to_decline')}}</div>
+            </b-nav-item>
+            <b-nav-item :to="{ path: '/editor/similars'}">
+                <i class="material-icons active-yellow">&#xE871;</i>
+                <div class="nav-link__counter">{{countWorks('similars', '')}}</div>
+            </b-nav-item>
+            <b-nav-item @click="toggleFull">
+                <i v-if="$store.state.editorFull" class="material-icons">&#xE5D1;</i>
+                <i v-else class="material-icons">&#xE5D0;</i>
+            </b-nav-item>
+        </b-nav>
+        <b-nav is-nav-bar v-if="showInspectorMenu">
+            <b-nav-item :to="{ path: '/inspector/review'}">
+                <i class="material-icons active-blue">&#xE019;</i>
+                <div class="nav-link__counter">{{countWorks('technical', 'review_technical')}}</div>
+            </b-nav-item>
+            <b-nav-item :to="{ path: '/inspector/approve'}">
+                <i class="material-icons active-green">&#xE86C;</i>
+                <div class="nav-link__counter">{{countWorks('technical', 'selected_to_approve')}}</div>
+            </b-nav-item>
+            <b-nav-item :to="{ path: '/inspector/return'}">
+                <i class="material-icons active-yellow">&#xE000;</i>
+                <div class="nav-link__counter">{{countWorks('technical', 'selected_to_return')}}</div>
+            </b-nav-item>
+            <b-nav-item :to="{ path: '/inspector/reject'}">
+                <i class="material-icons active-red">&#xE5C9;</i>
+                <div class="nav-link__counter">{{countWorks('technical', 'selected_to_reject')}}</div>
+            </b-nav-item>
+            <b-nav-item href="/archive" target="_blank">
+                <i class="material-icons">&#xE2C4;</i>
+            </b-nav-item>
+            <b-nav-item href="https://www.shutterstock.com/blog/contributor-resources/legal/stock-photo-restrictions/" target="_blank">Metadata wiki</b-nav-item>
+        </b-nav>
+        <b-nav is-nav-bar class="ml-auto">
+            <b-nav-item-dropdown right :text="navUser">
+                <b-dropdown-item :to="{ path: '/editor'}">Editor</b-dropdown-item>
+                <b-dropdown-item :to="{ path: '/inspector'}">Inspector</b-dropdown-item>
+                <b-dropdown-item href="/users/sign_out">Sign out</b-dropdown-item>
+            </b-nav-item-dropdown>
+        </b-nav>
+            </div>
+    </b-navbar>
+    
+    <router-view>
+        
+    </router-view>
+    <notifications></notifications>
+</div>
