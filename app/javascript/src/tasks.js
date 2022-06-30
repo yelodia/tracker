@@ -1,55 +1,32 @@
 define([
     'vue',
-    'bootstrap-vue',
     'store',
-    'router',
-    'html/app.html',
+    'html/tasks.html',
+    'components/taskItem',
     'vue-notifyjs'
-], function (Vue, BootstrapVue, Store, Router, Tpl, Notify) {
+], function (Vue, Store, Tpl, TaskItem, Notify) {
     'use strict';
-    Vue.use(BootstrapVue);
     Vue.use(Notify);
     
-    var app = new Vue({
-        el: '#app',
+    var tasksApp = new Vue({
+        el: '#tasks',
         template: Tpl,
         data: {
-            routerPath: []
+
         },
         computed: {
-            showEditorMenu: function(){
-                return this.$data.routerPath[0] == 'editor' && 
-                    ( this.$store.state.editorial.length > 0 || this.$store.state.similars.length > 0)
+            tasks: function() {
+                return _.orderBy(this.$store.state.tasks, 'updated_at', 'desc');
             },
-            showInspectorMenu: function(){
-                return this.$data.routerPath[0] == 'inspector' && this.$store.state.technical.length > 0
-            },
-            countWorks: function() {
-                return function (type, workState) {
-                    return _.sumBy(this.$store.state[type], function (em) {
-                        return !workState || em.state == workState ? 1 : 0;
-                    });
-                }
-            },
-            
-            navUser: function() {
-                switch (this.$data.routerPath[0] ) {
-                    case 'editor' : return 'Editor'; break;
-                    case 'inspector': return 'Inspector'; break;
-                    default: return 'User'; break;
+            taskByStatus: function() {
+                return function(status) {
+                    return _.filter(this.tasks, function(em){ return em.status == status; });
                 }
             }
         },
-        router: Router,
         store: Store,
         created: function(){
-            this.$store.dispatch('getData', 'user');
-            this.$store.dispatch('getData', 'pending');
-            this.$store.dispatch('getData', 'editorial');
-            this.$store.dispatch('getData', 'similars');
-
-            this.$store.dispatch('getData', 'accepted');
-            this.$store.dispatch('getData', 'technical');
+            this.$store.dispatch('getData', 'tasks');
         },
         methods: {
             toggleFull: function(){
@@ -65,6 +42,6 @@ define([
         }
     });
 
-    Vue.prototype.app = app;
-    return window.app = app;
+    Vue.prototype.tasksApp = tasksApp;
+    return window.tasksApp = tasksApp;
 });

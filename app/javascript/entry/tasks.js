@@ -4,17 +4,13 @@ window.delay = function(t) {
     });
 };
 require([
-    'app',
+    'tasks',
     'vue',
-    'bootstrap-vue',
     'vuex',
-    'vue-router',
     'vue-resource',
     'vue-notifyjs',
-    'components/worksActions',
-    'components/worksGallery',
+    'components/taskItem',
     'expose-loader?moment!moment',
-    'expose-loader?jQuery!expose-loader?$!jquery', // access to global
     //'lodash',
 ], function (app, Vue, BootstrapVue) {
     

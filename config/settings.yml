@@ -1,0 +1,17 @@
+mailer:
+  service: smtp
+  host: tracker.com
+  from: 'noreply@tracker.com'
+
+  sendmail:
+    location:  '/usr/sbin/sendmail'
+    arguments: '-i -t'
+
+  smtp:
+    address: 'smtp.gmail.com'
+    domain:  'tracker.com'
+    port:    587
+    email:   'support@tracker.com'
+    password: <%= ENV["MAILER_PASSWORD"] %>
+    authentication: plain
+    enable_starttls_auto: true

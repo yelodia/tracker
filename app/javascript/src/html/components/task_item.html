@@ -1,0 +1,25 @@
+<div class="card my-1">
+    <div class="p-2 d-flex">
+        <div class="flex-fill">
+            <small class="text-black-50">
+                <span class="d-inline-block me-2">Created: {{dateFormat(task.created_at)}}</span>
+                <span class="d-inline-block">Deadline: {{dateFormat(task.deadline_at)}}</span>
+            </small>
+            <div>
+                <b>{{task.title}}</b> <br>
+                <small v-if="task.user" class="me-2">User: {{task.user}}</small>
+                <small v-if="task.done_at">Done: {{dateFormat(task.done_at)}}</small>
+            </div>
+        </div>
+        <div class="text-nowrap">
+            <button v-if="task.status == 'new'" @click="changeStatus('in_progress')" class="btn btn-primary btn-sm">Start</button>
+            <template v-if="task.status == 'in_progress'">
+                <button v-if="task.may_complete" @click="changeStatus('completed')"  class="btn btn-primary btn-sm">Complete</button>
+                <button @click="changeStatus('canceled')" class="btn btn-warning btn-sm">Cancel</button>
+                <button @click="approve()" class="btn btn-success btn-sm">Approve</button>
+            </template>
+
+        </div>
+
+    </div>
+</div>

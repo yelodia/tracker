@@ -10,14 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220629130147) do
+ActiveRecord::Schema.define(version: 20220629203400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "approves", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "task_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_approves_on_task_id"
+    t.index ["user_id", "task_id"], name: "index_approves_on_user_id_and_task_id", unique: true
+    t.index ["user_id"], name: "index_approves_on_user_id"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "title", default: "", null: false
+    t.string "status", default: "", null: false
+    t.datetime "done_at"
+    t.datetime "deadline_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["status"], name: "index_tasks_on_status"
+    t.index ["user_id"], name: "index_tasks_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "name", default: "", null: false
+    t.integer "role", default: 0, null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

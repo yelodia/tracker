@@ -17,11 +17,14 @@ gem 'dotenv-rails'
 gem 'config'
 gem 'slim'
 gem 'bootstrap', '~> 5.1.3'
+gem 'font-awesome-rails'
+gem 'webpacker', '~> 3.0.2'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
+  gem 'letter_opener'
 end
 
 group :development do

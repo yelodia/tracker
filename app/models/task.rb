@@ -1,21 +1,45 @@
-class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+class Task < ApplicationRecord
+  include AASM
+  belongs_to :user, optional: true
+  has_many :approve
 
-  enum role: { nobody: 0, user: 1, admin: 2}
+  validates :title, presence: true
+  validates :deadline_at, presence: true
+  validate :deadline_in_future?
 
-  has_many :tasks
+  aasm column: :status do
+    state :new, initial: true
+    state :in_progress, :completed, :canceled
 
-  before_save :autofill
+    event :start do
+      transitions from: :new,
+                  to: :in_progress
+    end
+
+    event :complete, after: :done do
+      transitions from: :in_progress, to: :completed, guard: :has_approves?
+    end
+
+    event :cancel, after: :done do
+      transitions from: :in_progress, to: :canceled
+    end
+
+  end
+
+  def has_approves?
+    approve.size > 1
+  end
 
   private
 
-  def autofill
-    self.role = :user if nobody?
-    self.name = email.split('@').first unless self.name.present?
-    self.email.downcase! if self.email
+  def done
+    update!(done_at: Time.zone.now)
+  end
+
+  def deadline_in_future?
+    if deadline_at < Time.zone.now
+      errors.add(:deadline_at, "can't be in the past")
+    end
   end
 
 end

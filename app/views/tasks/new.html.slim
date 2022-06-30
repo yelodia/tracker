@@ -1,0 +1,12 @@
+.container
+  .form
+    h1 Create new task
+    = form_for @task do |f|
+      .my-3
+        = f.text_field :title, placeholder: 'Title', class: 'form-control'
+        = errors_for f, :title
+      .my-3
+        = f.datetime_field :deadline_at, placeholder: 'Deadline', class: 'form-control'
+        = errors_for f, :deadline_at
+      .d-grid.my-3
+        button.btn.btn-primary.btn-lg Create task

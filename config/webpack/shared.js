@@ -10,9 +10,7 @@ module.exports = {
         alias: {
             'vue': 'vue/dist/vue.js',
             'vue-mc': 'vue-mc/dist/vue-mc.js',
-            'vue-router': 'vue-router/dist/vue-router.js',
-            'vue-resource': 'vue-resource/dist/vue-resource.js',
-            'bootstrap-vue': 'bootstrap-vue/dist/bootstrap-vue.js'
+            'vue-resource': 'vue-resource/dist/vue-resource.js'
         }
     },
 
@@ -24,8 +22,6 @@ module.exports = {
 
     plugins : [
         new webpack.ProvidePlugin({
-            $        : "jquery",
-            jQuery   : "jquery",
             _        : "lodash"
         })
     ]
